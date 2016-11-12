@@ -7,6 +7,7 @@ _Note:_ This is not a proper Slack "App." It is a cludge I built to have fun wit
 While I tried to make these instructions as user-friendly as possible, some understanding of basic PHP, HTML, CSS, and the Slack API may be required.
 
 To use this you will need:
+
 1. a PHP server to run the source code, and 
 2. a Slack Team to display the output.
 
@@ -34,6 +35,7 @@ The incoming webhook will look similar to this:
 
 ### Setup
 To setup the messenger, first you will need to **upload the files to a PHP server** (and sort out any errors; if you've already set up the dice roller, you're fine). Then you will need to **create** or **log in to your Slack Team in a web browser**, then go to [https://api.slack.com/](https://api.slack.com/) and follow these steps:
+
 1. Add a "Custom integration"
 	1. Click the green **"Start building custom integrations"** button on the right.
 	2. Scroll to the green **"Set up an incoming webhook"** button and click on it.
@@ -55,6 +57,7 @@ To setup the messenger, first you will need to **upload the files to a PHP serve
 
 ### Use
 To use the messenger, point your web browser to "index.php" on the PHP server you uploaded the files to.
+
 1. Select the channel you want to post to.
 2. Select the character you want to appear as.
 3. Write the message in the big text box.
@@ -179,6 +182,7 @@ To setup the dice roller, first you will need to **upload the files to a PHP ser
 
 ### Use
 To use the dice roller, simply type a message inside the Slack application or web interface using one of the following formats:
+
 1. To **roll** the **"Star Wars Roleplaying Dice"**, type `/roll abcdfgkprswy`, or some combination thereof.
 	1. **Type** (and **color**) **abbreviations** are as follow:
 		* [**A**]bility dice are [**G**]reen
