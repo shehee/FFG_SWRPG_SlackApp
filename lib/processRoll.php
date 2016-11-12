@@ -155,7 +155,7 @@
 					}
 					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netAdvantages'] . " Advantage".($resultArray['netAdvantages'] > 1 ? "s" : NULL).". ";
 				} elseif( $resultArray['threat'] > $resultArray['advantage'] ) {
-					$resultArray['netThreats'] = $resultArray['threat'] - $resultArray['success'];
+					$resultArray['netThreats'] = $resultArray['threat'] - $resultArray['advantage'];
 					for($i=1;$i<=$resultArray['netThreats'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":threat:";
 					}
