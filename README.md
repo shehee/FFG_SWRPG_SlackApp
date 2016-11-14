@@ -44,6 +44,7 @@ To setup the messenger, first you will need to **upload the files to a PHP serve
 		* _Note:_ The actual channel doesn't matter; it will be selected using the webpage dropdown/`$channelList` array.
 	5. Click the (now) green **"Add Incoming Webhooks integration"** (if you agree to the [Slack API Terms of Service](https://shehee.slack.com/terms-of-service/api)).
 	6. Copy the "Webhook URL" for use in the following step (2.1).
+		* _Note:_ It will be formatted along the lines of: `https://hooks.slack.com/services/T########/#########/########################`
 	7. Customize the rest of the options on the page however you see fit.
 2. Edit the settings file, `lib/domainWebhookConfig.php`.
 	1. Edit the `response_url` **value** of the `$domainWebhookSettings` array: change the **value** of this **key** to the "Webhook URL" you copied in step 1.6.
@@ -80,7 +81,7 @@ The Star Wars Roleplaying Dice slash command result will look similar to this:
 
 ![Star Wars Roleplaying Dice slash command result.png](https://raw.githubusercontent.com/shehee/ffgswrpg-slack-app/master/img/Star%20Wars%20Roleplaying%20Dice%20slash%20command%20result.png "Obi-Wan successfully Influences a stormtrooper")
 
-_Note:_ **_These are not included._**
+_Note:_ By default, the dice roller sends a string of various dice properties that is formatted to take advantage of the ability to display emojis on the client side. You will need to provide your own images for the **die types**, **die faces**, and **die results**. **_I do not provide these in an attempt to avoid copyright infringement._** (This also saves bandwidth after the initial load.) **_These are not included._**
 
 The critical and Morality check slash command results will look similar to this:
 
@@ -99,7 +100,7 @@ To setup the dice roller, first you will need to **upload the files to a PHP ser
 	6. Scroll to **"URL"** under the *"Integration Settings"* section and add the full URL of the PHP server where `index.php` is hosted, followed by `?roll`.
 		* **Example:** `https://example.com/index.php?roll`
 	7. Copy the **"Token"** under the *"Integration Settings"* section for use in the following step (3.1).
-		* _Note:_ It will be formatted along the lines of: `https://hooks.slack.com/services/T########/#########/########################`
+		* _Note:_ It will be formatted along the lines of: `########################`
 	8. Customize the rest of the options on the page however you see fit.
 	9. Click the green **"Save Integration"** button toward the bottom of the page.
 2. Get your Team ID.
