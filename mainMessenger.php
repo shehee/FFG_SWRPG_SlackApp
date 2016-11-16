@@ -126,13 +126,13 @@
 					<div class="<?echo(isset($formValues[ 'displayAdvanced' ]))?"four":"six"?> columns">
 						<label for="channelID">Channel selection</label>
 						<select class="u-full-width" id="channelID" name="channelInput">
-							<?php foreach( $domainWebhookSettings[ 'channelList' ] as $channelKey => $channelValue ) {
-								if( $_POST[ 'channelInput' ] === $channelValue ) {
-									$channelSelect = "selected";
+							<?php foreach( $domainWebhookSettings[ 'channelList' ] as $channelAlias => $channelName ) {
+								if( $_POST[ 'channelInput' ] === $channelName ) {
+									$channelSelect = " selected";
 								} else {
 									$channelSelect = NULL;
 								}
-								echo '<option value="'.htmlspecialchars($channelValue).'" '.htmlspecialchars($channelSelect).'>'.htmlspecialchars($channelKey).'</option>';
+								echo '<option value="'.htmlspecialchars($channelName).'"'.htmlspecialchars($channelSelect).'>'.htmlspecialchars($channelAlias).'</option>';
 							}
 							?>
 						</select>
@@ -150,13 +150,17 @@
 					<div class="six columns">
 						<label for="identityID">Identity selection</label>
 						<select class="u-full-width" id="identityID" name="identityInput">
-							<?php foreach( $messengerCharacterArray as $characterKey => $characterValue ) {
-								if( $_POST[ 'identityInput' ] === $characterKey ) {
-									$npcSelect = "selected";
-								} else {
-									$npcSelect = NULL;
-								}
-								echo '<option value="'.htmlspecialchars($characterKey).'" '.htmlspecialchars($npcSelect).'>'.htmlspecialchars($characterKey).'</option>';
+							<?php foreach( $messengerCharacterArray as $groupName => $groupArray ) {
+								echo '<optgroup label="'.$groupName.'">';
+									foreach( $groupArray as $characterName => $unusedValue ) {
+										if( $_POST[ 'identityInput' ] === $characterName ) {
+											$npcSelect = " selected";
+										} else {
+											$npcSelect = NULL;
+										}
+										echo '<option value="'.htmlspecialchars($characterName).'"'.htmlspecialchars($npcSelect).'>'.htmlspecialchars($characterName).'</option>';
+									}
+								echo '</optgroup>';
 							}
 							?>
 						</select>

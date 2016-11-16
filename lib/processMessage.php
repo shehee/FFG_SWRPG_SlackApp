@@ -42,9 +42,10 @@
 			/*
 			 * Populate username from form
 			*/
-			if( array_key_exists( $_POST[ 'identityInput' ], $messengerCharacterArray ) ) {
+			$ImgURLArray = array_column($messengerCharacterArray,$_POST[ 'identityInput' ]);
+			if( isset( $ImgURLArray ) ) {
 				$payloadArray['username'] = $_POST[ 'identityInput' ];
-				$payloadArray['icon_url'] = $messengerCharacterArray[ $_POST[ 'identityInput' ] ];
+				$payloadArray['icon_url'] = $ImgURLArray[0];
 			} elseif( isset( $_POST[ 'usernameInput' ] ) || isset( $_POST[ 'iconURLInput' ] ) ) {
 				if( isset( $_POST[ 'usernameInput' ] ) ) {
 					$payloadArray['username'] = $_POST[ 'usernameInput' ];
