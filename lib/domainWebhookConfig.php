@@ -27,18 +27,32 @@
 	 * --------
 	 * Slack Webhook settings; replace these settings with your own
 	 */
-
+/* BEGIN PRIVATE DATA */
 	$domainWebhookSettings = array(
-		"response_url"		=> "https://hooks.slack.com/services/T########/#########/########################",
+		"response_url"		=> "https://hooks.slack.com/services/TXXXXXXXX/BXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX",
 		"channelList"		=> array(
-								"#ic" => "#ic",
-								"#mpic-ggr0_somm" => "#mpic-ggr0_somm",
+								"#general" 	=> "#general",
+								"#random" 	=> "#random",
 							),
-		"token"				=> "########################",
-		"team_id"			=> "T########",
+		"token"				=> "XXXXXXXXXXXXXXXXXXXXXXXX",
+		"team_id"			=> "TXXXXXXXX",
 		"team_domain"		=> "_________",
-		"owner_id"			=> "U########",		// may be used in the future
+		"owner_id"			=> "UXXXXXXXX",		// may be used in the future
 	);
+	/*
+	 * Associate usernames to icon_urls
+	*/
+	$messengerCharacterArray = array(
+		"GROUP 1"				=>	array( 
+			"NAME 1"							=> "http://placehold.it/512.png?text=NAME+1",
+			"NAME 2"							=> "http://placehold.it/512.png?text=NAME+2",
+		), 
+		"GROUP 2"				=>	array( 
+			"NAME 3"							=> "http://placehold.it/512.png?text=NAME+1",
+			"NAME 4"							=> "http://placehold.it/512.png?text=NAME+2",
+		), 
+	);
+/* END PRIVATE DATA */
 	/*
 	 * $payloadArray['attachmentsArray']
 	 * These are defaults that will be overwritten later probably
@@ -129,11 +143,4 @@
 			11				=> array( "lightSideForcePoint", "lightSideForcePoint" ),
 			12				=> array( "lightSideForcePoint", "lightSideForcePoint" ),
 		),
-	);
-	/*
-	 * Associate usernames to icon_urls
-	*/
-	$messengerCharacterArray = array(
-		"NAME 1"							=> "http://placehold.it/512.png?text=NAME+1",
-		"NAME 2"							=> "http://placehold.it/512.png?text=NAME+2",
 	);
