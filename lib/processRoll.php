@@ -32,12 +32,12 @@
 		function processRoll($diceDistributionArray) {
 			$lowercaseText = strtolower($_POST['text']);
 			$trimmedLowercaseText = trim($lowercaseText);
-			$replacedTrimmedLowercaseText = preg_replace('/[^abcdfgkprswyABCDFGKPRSWY0-9+]+/i', '', $trimmedLowercaseText);
+			$replacedTrimmedLowercaseText = preg_replace('/[^abcdfgkprsuwyABCDFGKPRSUWY0-9+]+/i', '', $trimmedLowercaseText);
 			$payloadArray['attachmentsArray']['color'] = "#761213";
 
 			/*
 			 * test if "text" is alpha only:
-			 * 		ex: /roll abcdfgkprswy
+			 * 		ex: /roll abcdfgkprsuwy
 			 * or alphanumeric
 			 *		ex: /roll 1g3y1b3p1r2k // may be implemented in the future
 			 * 		ex: /roll 1d100
@@ -47,7 +47,7 @@
 				 * If the "text" is ill-formatted...
 				 * return instructions on how to properly format "text"
 				 * this only happens if a character is included other than the following:
-				 * 		abcdfgkprswyABCDFGKPRSWY0-9+
+				 * 		abcdfgkprsuwyABCDFGKPRSUWY0-9+
 				*/
 				$payloadArray['text'] = "I tried what you asked: `/roll ".$_POST['text']."`, but it didn't work.\n";
 				$payloadArray['text'] .= "Valid `/roll` commands are made up of either:\n";
@@ -57,13 +57,13 @@
 			/*
 			 * elseif ctype_alpha
 			 *
-			 * /roll abcdfgkprswy
-			 * $replacedTrimmedLowercaseText: abcdfgkprswy
+			 * /roll abcdfgkprsuwy
+			 * $replacedTrimmedLowercaseText: abcdfgkprsuwy
 			 *
 			 * Type or Color abbreviations
 			 * [A]bility dice are [G]reen
 			 * proficienc[Y] dice are [Y]ellow
-			 * [B]oost dice are [B]lue
+			 * [B]oost dice are [B]lue (bl[U]e can also be used...because somebody played Magic: The Gathering once)
 			 * [D]ifficulty dice are [P]urple
 			 * [C]hallenge dice are [R]ed
 			 * [S]etback dice are blac[K]
@@ -82,7 +82,7 @@
 				*/
 				$diceArray['request']['ability'] = substr_count($replacedTrimmedLowercaseText, 'g') + substr_count($replacedTrimmedLowercaseText, 'a');
 				$diceArray['request']['proficiency'] = substr_count($replacedTrimmedLowercaseText, 'y');
-				$diceArray['request']['boost'] = substr_count($replacedTrimmedLowercaseText, 'b');
+				$diceArray['request']['boost'] = substr_count($replacedTrimmedLowercaseText, 'b') + substr_count($replacedTrimmedLowercaseText, 'u');
 				$diceArray['request']['difficulty'] = substr_count($replacedTrimmedLowercaseText, 'p') + substr_count($replacedTrimmedLowercaseText, 'd');
 				$diceArray['request']['challenge'] = substr_count($replacedTrimmedLowercaseText, 'r') + substr_count($replacedTrimmedLowercaseText, 'c');
 				$diceArray['request']['setback'] = substr_count($replacedTrimmedLowercaseText, 'k') + substr_count($replacedTrimmedLowercaseText, 's');
