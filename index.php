@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.03
+	 * Version:		1.06
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -25,7 +25,6 @@
 	 */
 	$requiredFiles = array(
 		"lib/authenticatePostData.php",				// needed for slash commands: mainRoller.php & mainTracker.php
-		"lib/constructAttachmentsString.php",		// universal
 		"lib/constructPayloadString.php",			// universal
 		"lib/constructRoleplayingDiceString.php",	// needed for mainRoller.php
 		"lib/domainWebhookConfig.php",				// universal - settings
