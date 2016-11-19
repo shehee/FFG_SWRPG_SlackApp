@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
+	 * Version:		1.05
 	 * Date:		2016-11-04
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -29,7 +29,7 @@
 	 * Begins constructing the payload array to be turned into the payload string
 	 */
 	if (!function_exists('processMessage')) {
-		function processMessage( $messengerCharacterArray ) {
+		function processMessage( $payloadArray, $messengerCharacterArray ) {
 			/*
 			 * Populate channel from form
 			 */

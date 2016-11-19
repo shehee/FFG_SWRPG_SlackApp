@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.02
+	 * Version:		1.05
 	 * Date:		2016-11-18
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -61,12 +61,12 @@
 					if( is_array( $attachmentsValue ) ) {
 						$payloadString .= $payloadArray['delimiter'][0].'"'.$attachmentsKey.'":[';
 						foreach( $attachmentsValue as $valueValue ) {
-							$payloadString .= $payloadArray['delimiter'][1].'"'.escapePayloadString($valueValue).'"';
+							$payloadString .= $payloadArray['delimiter'][1].'"'.trim(escapePayloadString($valueValue)).'"';
 							$payloadArray['delimiter'][1] = ",";
 						}
 						$payloadString .= ']';
 					} else {
-						$payloadString .= $payloadArray['delimiter'][0].'"'.$attachmentsKey.'": "'.escapePayloadString($attachmentsValue).'"';
+						$payloadString .= $payloadArray['delimiter'][0].'"'.$attachmentsKey.'": "'.trim(escapePayloadString($attachmentsValue)).'"';
 					}
 					$payloadArray['delimiter'][0] = ",";
 				}

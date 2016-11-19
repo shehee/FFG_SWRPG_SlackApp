@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.03
+	 * Version:		1.05
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -44,14 +44,14 @@
 					if($payloadKeyCount > 1) {
 						$payloadString .= ',';
 					}
-					$payloadString .= '"'.$payloadKey.'":"'.escapePayloadString($payloadValue).'"';
+					$payloadString .= '"'.$payloadKey.'":"'.trim(escapePayloadString($payloadValue)).'"';
 				} elseif( is_array($payloadValue) && $payloadKey === "attachmentsArray" ) {
 					/*
 					 * Step 3:
 					 * Construct and append attachments
 					 * Will need to be escaped as needed; see constructAttachmentsString.php for individual escapes
 					 */
-					$payloadString .= constructAttachmentsString( $payloadArray['attachmentsArray'] );
+					$payloadString .= ','.constructAttachmentsString( $payloadArray['attachmentsArray'] );
 				}
 			}
 			/*

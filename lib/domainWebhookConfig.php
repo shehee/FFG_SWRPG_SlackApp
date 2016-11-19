@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.01
+	 * Version:		1.05
 	 * Date:		2016-11-16
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -34,7 +34,8 @@
 								"#general" 	=> "#general",
 								"#random" 	=> "#random",
 							),
-		"token"				=> "XXXXXXXXXXXXXXXXXXXXXXXX",
+		"roll_token"		=> "XXXXXXXXXXXXXXXXXXXXXXXX",
+		"destiny_token"		=> "XXXXXXXXXXXXXXXXXXXXXXXX",
 		"team_id"			=> "TXXXXXXXX",
 		"team_domain"		=> "_________",
 		"owner_id"			=> "UXXXXXXXX",		// may be used in the future
@@ -54,12 +55,20 @@
 	);
 /* END PRIVATE DATA */
 	/*
-	 * $payloadArray['attachmentsArray']
+	 * $payloadArray
 	 * These are defaults that will be overwritten later probably
 	 */
-	$payloadArray['attachmentsArray'] = array(
-		"fallback"			=> "Payload attachment for SWRPG NPC Messenger & Dice Roller",
-		"color"				=> "#761213",
+	$payloadArray = array(
+		"response_type"		=> "in_channel",
+#		"channel"			=> "#ic",
+		"username"			=> "Star Wars Roleplayingbot",
+#		"icon_emoji"		=> ":speech_balloon:",
+#		"text"				=> "Text missing.",
+		"attachmentsArray"	=> array(
+			"fallback"			=> "Payload attachment for SWRPG NPC Messenger & Dice Roller",
+			"color"				=> "#761213",
+			"mrkdwn_in"			=> array( "pretext", "text", "fields" ),
+		),
 	);
 	/*
 	 * Associate die types to die face assignments and die face results

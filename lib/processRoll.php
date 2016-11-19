@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.04
+	 * Version:		1.05
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -29,7 +29,7 @@
 	 * Begins constructing the payload array to be turned into the payload string
 	 */
 	if (!function_exists('processRoll')) {
-		function processRoll($diceDistributionArray) {
+		function processRoll( $payloadArray, $diceDistributionArray ) {
 			/*
 			 * Step -1:
 			 * Process $_POST['text'] into usable and matchable string
@@ -59,10 +59,7 @@
 			/*
 			 * Step 0:
 			 * Begin formatting $payloadArray, 
-			 * esp. pretext string
 			 */
-			$payloadArray['attachmentsArray']['mrkdwn_in'] = array( "pretext", "text", "fields" );
-			$payloadArray['attachmentsArray']['color'] = "#761213";
 			$payloadArray['attachmentsArray']['fallback'] = $diceArray['type'] .": " . $_POST['text'];
 			$payloadArray['attachmentsArray']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
 

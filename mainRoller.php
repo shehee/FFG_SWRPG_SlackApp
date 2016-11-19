@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.03
+	 * Version:		1.05
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -44,7 +44,7 @@
 	if( $postDataExists === TRUE ) {
 		$authenticated = authenticatePostData($domainWebhookSettings);
 		if( $authenticated === TRUE ) {
-			$payloadArray = processRoll($diceDistributionArray);
+			$payloadArray = processRoll( $payloadArray , $diceDistributionArray );
 			$payloadString = constructPayloadString($payloadArray);
 			if( isset( $payloadString ) ) {
 				/*
