@@ -4,6 +4,7 @@
 	 *
 	 * Author:		Ryan Shehee
 	 * Version:		1.00
+	 * Date:		2016-11-04
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *

@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
-	 * Date:		2016-11-04
+	 * Version:		1.01
+	 * Date:		2016-11-16
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *

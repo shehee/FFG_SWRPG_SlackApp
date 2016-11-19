@@ -4,6 +4,7 @@
 	 *
 	 * Author:		Ryan Shehee
 	 * Version:		1.00
+	 * Date:		2016-11-04
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -28,7 +29,7 @@
 	 */
 	if (!function_exists('constructRollPayload')) {
 		function constructRollPayload($payloadArray, $rollerAttachmentsArray) {
-			$payloadString = '{';
+			$payloadString .= '{';
 			$payloadString .= '"response_type": "in_channel",';
 			$payloadString .= '"channel_id": "'.$_POST[ 'channel_id' ].'",';
 
