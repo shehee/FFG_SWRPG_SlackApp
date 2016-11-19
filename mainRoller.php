@@ -40,20 +40,20 @@
 	 * IF form was submitted...
 	 * Process form and...
 	 * Send webhook
-	*/
+	 */
 	if( $postDataExists === TRUE ) {
 		$authenticated = authenticatePostData($domainWebhookSettings);
 		if( $authenticated === TRUE ) {
 			$payloadArray = processRoll($diceDistributionArray);
-			$payloadString = constructRollPayload( $payloadArray, $rollerAttachmentsArray );
+			$payloadString = constructRollPayload($payloadArray);
 			if( isset( $payloadString ) ) {
 				/*
 				 * Log payloadString
-				*/
+				 */
 				$logResult = logOutput( $payloadString, $logFile );
 				/*
 				 *
-				*/
+				 */
 				$webhookResponse = sendSlackWebhook( $payloadString, $_POST['response_url'] );
 			}
 		}

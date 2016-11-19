@@ -28,7 +28,7 @@
 	 * Construct the roll payload string from the payload array and attachments array
 	 */
 	if (!function_exists('constructRollPayload')) {
-		function constructRollPayload($payloadArray, $rollerAttachmentsArray) {
+		function constructRollPayload($payloadArray) {
 			$payloadString .= '{';
 			$payloadString .= '"response_type": "in_channel",';
 			$payloadString .= '"channel_id": "'.$_POST[ 'channel_id' ].'",';
