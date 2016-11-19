@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.02
-	 * Date:		2016-11-18
+	 * Version:		1.04
+	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -185,14 +185,16 @@
 					for($i=1;$i<=$resultArray['netSuccesses'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":success:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netSuccesses'] . " Success".($resultArray['netSuccesses'] > 1 ? "es" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netSuccesses']." Success".($resultArray['netSuccesses'] > 1 ? "es" : NULL);
+					$prependFooter = ", ";
 				} elseif( $resultArray['failure'] > $resultArray['success'] ) {
 					$payloadArray['attachmentsArray']['color'] = "#E11D39";
 					$resultArray['netFailures'] = $resultArray['failure'] - $resultArray['success'];
 					for($i=1;$i<=$resultArray['netFailures'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":failure:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netFailures'] . " Failure".($resultArray['netFailures'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netFailures']." Failure".($resultArray['netFailures'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				}
 				/*
 				 * Step 4b:
@@ -203,13 +205,15 @@
 					for($i=1;$i<=$resultArray['netAdvantages'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":advantage:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netAdvantages'] . " Advantage".($resultArray['netAdvantages'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['netAdvantages']." Advantage".($resultArray['netAdvantages'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				} elseif( $resultArray['threat'] > $resultArray['advantage'] ) {
 					$resultArray['netThreats'] = $resultArray['threat'] - $resultArray['advantage'];
 					for($i=1;$i<=$resultArray['netThreats'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":threat:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netThreats'] . " Threat".($resultArray['netThreats'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['netThreats']." Threat".($resultArray['netThreats'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				}
 				/*
 				 * Step 4c:
@@ -219,13 +223,15 @@
 					for($i=1;$i<=$resultArray['triumph'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":triumph1:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['triumph'] . " Triumph".($resultArray['triumph'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['triumph']." Triumph".($resultArray['triumph'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				}
 				if( $resultArray['despair'] > 0 ) {
 					for($i=1;$i<=$resultArray['despair'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":despair:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['despair'] . " Despair".($resultArray['despair'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['despair']." Despair".($resultArray['despair'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				}
 				/*
 				 * Step 4d:
@@ -235,13 +241,14 @@
 					for($i=1;$i<=$resultArray['lightSideForcePoint'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":lightside:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['lightSideForcePoint'] . " light side Force point".($resultArray['lightSideForcePoint'] > 1 ? "s" : NULL).". ";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['lightSideForcePoint']." light side Force point".($resultArray['lightSideForcePoint'] > 1 ? "s" : NULL);
+					$prependFooter = ", ";
 				}
 				if( $resultArray['darkSideForcePoint'] > 0 ) {
 					for($i=1;$i<=$resultArray['darkSideForcePoint'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":darkside:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['darkSideForcePoint'] . " dark side Force point".($resultArray['darkSideForcePoint'] > 1 ? "s" : NULL).".";
+					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['darkSideForcePoint']." dark side Force point".($resultArray['darkSideForcePoint'] > 1 ? "s" : NULL);
 				}
 				// end formatting text string based on results of rolls
 
