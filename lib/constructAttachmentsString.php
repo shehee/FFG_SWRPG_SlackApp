@@ -51,24 +51,24 @@
 	 * $payloadArray['attachmentsArray']['image_url'] = NULL;
 	 * $payloadArray['attachmentsArray']['thumb_url'] = NULL;
 	 * $payloadArray['attachmentsArray']['footer_icon'] = NULL;
-	*/
+	 */
 
 	if (!function_exists('constructAttachmentsString')) {
-		function constructAttachmentsString($attachmentsArray) {
-			if( is_array($attachmentsArray) ) {
+		function constructAttachmentsString($payloadArray) {
+			if( is_array($payloadArray) ) {
 				$payloadString .= '"attachments":[{';
-				foreach( $attachmentsArray as $attachmentsKey => $attachmentsValue ) {
+				foreach( $payloadArray as $attachmentsKey => $attachmentsValue ) {
 					if( is_array( $attachmentsValue ) ) {
-						$payloadString .= $attachmentsArray['delimiter'][0].'"'.$attachmentsKey.'":[';
+						$payloadString .= $payloadArray['delimiter'][0].'"'.$attachmentsKey.'":[';
 						foreach( $attachmentsValue as $valueValue ) {
-							$payloadString .= $attachmentsArray['delimiter'][1].'"'.escapePayloadString($valueValue).'"';
-							$attachmentsArray['delimiter'][1] = ",";
+							$payloadString .= $payloadArray['delimiter'][1].'"'.escapePayloadString($valueValue).'"';
+							$payloadArray['delimiter'][1] = ",";
 						}
 						$payloadString .= ']';
 					} else {
-						$payloadString .= $attachmentsArray['delimiter'][0].'"'.$attachmentsKey.'": "'.escapePayloadString($attachmentsValue).'"';
+						$payloadString .= $payloadArray['delimiter'][0].'"'.$attachmentsKey.'": "'.escapePayloadString($attachmentsValue).'"';
 					}
-					$attachmentsArray['delimiter'][0] = ",";
+					$payloadArray['delimiter'][0] = ",";
 				}
 				$payloadString .= '}]';
 

@@ -32,7 +32,7 @@
 		function processMessage( $messengerCharacterArray ) {
 			/*
 			 * Populate channel from form
-			*/
+			 */
 			if( isset($_POST[ 'channelInput' ]) ) {
 				$payloadArray['channel'] = $_POST[ 'channelInput' ];
 			} else {
@@ -41,7 +41,7 @@
 
 			/*
 			 * Populate username from form
-			*/
+			 */
 			$ImgURLArray = array_column($messengerCharacterArray,$_POST[ 'identityInput' ]);
 			if( isset( $ImgURLArray ) ) {
 				$payloadArray['username'] = $_POST[ 'identityInput' ];
@@ -59,7 +59,7 @@
 			}
 			/*
 			 * Populate text from form
-			*/
+			 */
 			if( isset( $_POST[ 'messageInput' ] ) ) {
 				$payloadArray['text'] = $_POST[ 'messageInput' ];
 			} else {

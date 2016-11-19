@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.01
-	 * Date:		2016-11-16
+	 * Version:		1.03
+	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -52,21 +52,21 @@
 	 * IF form was submitted...
 	 * Process form and...
 	 * Send webhook
-	*/
+	 */
 	if( $formValues[ 'submitState' ] === TRUE ) {
 		$payloadArray = processMessage( $messengerCharacterArray );
-		$payloadString = constructMessagePayload( $payloadArray, $messageAttachmentsArray );
+		$payloadString = constructPayloadString( $payloadArray, $messageAttachmentsArray );
 		if( $formValues[ 'sendWebhook' ] === TRUE && isset( $payloadString ) ) {
 			/*
 			 * Log payloadString
-			*/
+			 */
 			$logResult = logOutput( $payloadString, $logFile );
 			/*
 			 * Will return "ok" if all went as planned.
 			 * Will return "invalid_payload" if the payload is...invalid.
 			 * Will return "missing_text_or_fallback_or_attachments" if no text is set.
 			 * Will return "channel_not_found" if it can't fin the channel
-			*/
+			 */
 			$webhookResponse = sendSlackWebhook( $payloadString, $domainWebhookSettings[ 'response_url' ] );
 		}
 	}

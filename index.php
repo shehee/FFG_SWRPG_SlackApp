@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.02
-	 * Date:		2016-11-18
+	 * Version:		1.03
+	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -24,10 +24,9 @@
 	 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	 */
 	$requiredFiles = array(
-		"lib/authenticatePostData.php",				// needed for mainRoller.php
+		"lib/authenticatePostData.php",				// needed for slash commands: mainRoller.php & mainTracker.php
 		"lib/constructAttachmentsString.php",		// universal
-		"lib/constructMessagePayload.php",			// needed for mainMessager.php
-		"lib/constructRollPayload.php",				// needed for mainRoller.php
+		"lib/constructPayloadString.php",			// universal
 		"lib/constructRoleplayingDiceString.php",	// needed for mainRoller.php
 		"lib/domainWebhookConfig.php",				// universal - settings
 		"lib/escapePayloadString.php",				// universal
@@ -40,7 +39,7 @@
 	 * Determine if form was submitted...
 	 * and if so, by what means
 	 * then set state as appropriate
-	*/
+	 */
 	if ( isset( $_GET['roll'] ) ) {
 		$logFile = "logs/rollerOutput.log";
 		$requiredFiles[] = "mainRoller.php";

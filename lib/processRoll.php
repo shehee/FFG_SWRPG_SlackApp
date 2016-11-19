@@ -72,14 +72,14 @@
 			 * or alphanumeric
 			 *		ex: /roll 1g3y1b3p1r2k // may be implemented in the future
 			 * 		ex: /roll 1d100
-			*/
+			 */
 			if( $diceArray['type'] === "Invalid" || $diceArray['type'] === "Unknown" ) {
 				/*
 				 * If the "text" is ill-formatted...
 				 * return instructions on how to properly format "text"
 				 * this only happens if a character is included other than the following:
 				 * 		abcdfgkprsuwyABCDFGKPRSUWY0-9+
-				*/
+				 */
 				$payloadArray['text'] = "I tried what you asked: `/roll ".$_POST['text']."`, but it didn't work.\n";
 				$payloadArray['text'] .= "Valid `/roll` commands are made up of either:\n";
 				$payloadArray['text'] .= "> * letters that describe the kind of Fantasy Flight Games' Star Wars Roleplaying Game dice to roll (either by color or type abbreviation),\n";
@@ -99,12 +99,12 @@
 			 * [C]hallenge dice are [R]ed
 			 * [S]etback dice are blac[K]
 			 * [F]orce dice are [W]hite
-			*/
+			 */
 			} elseif( $diceArray['type'] === "Star Wars Roleplaying Dice" ) {
 				/*
 				 * Step 1:
 				 * Count how many of each type of dice are mentioned in the string
-				*/
+				 */
 				$diceArray['request']['ability'] = substr_count($diceArray['roleplayingDiceString'], 'g') + substr_count($diceArray['roleplayingDiceString'], 'a');
 				$diceArray['request']['proficiency'] = substr_count($diceArray['roleplayingDiceString'], 'y');
 				$diceArray['request']['boost'] = substr_count($diceArray['roleplayingDiceString'], 'b') + substr_count($diceArray['roleplayingDiceString'], 'u');
@@ -116,7 +116,7 @@
 				 * Step 2:
 				 * Roll results of each $diceArray['request']
 				 * Further format pretext string
-				*/
+				 */
 				foreach( $diceArray['request'] as $dieType => $diceRequested ) {
 					for($i=1;$i<=$diceRequested;$i++) {
 						$diceArray['dieFace'] = mt_rand(1,count($diceDistributionArray[$dieType]));
@@ -135,7 +135,7 @@
 				/*
 				 * Step 3:
 				 * Count each result and organize them in an array
-				*/
+				 */
 				if( is_array( $diceArray['dieRoll'] ) ) {
 					foreach( $diceArray['dieRoll'] as $rollArray ) {
 						foreach( $rollArray as $result ) {
@@ -173,12 +173,12 @@
 				/*
 				 * Step 4:
 				 * Begin formatting text string based on results of rolls
-				*/
+				 */
 
 				/*
 				 * Step 4a:
 				 * Successes vs Failures
-				*/
+				 */
 				if( $resultArray['success'] > $resultArray['failure'] ) {
 					$payloadArray['attachmentsArray']['color'] = "#46A246";
 					$resultArray['netSuccesses'] = $resultArray['success'] - $resultArray['failure'];
@@ -197,7 +197,7 @@
 				/*
 				 * Step 4b:
 				 * Advantages vs Threats
-				*/
+				 */
 				if( $resultArray['advantage'] > $resultArray['threat'] ) {
 					$resultArray['netAdvantages'] = $resultArray['advantage'] - $resultArray['threat'];
 					for($i=1;$i<=$resultArray['netAdvantages'];$i++) {
@@ -214,7 +214,7 @@
 				/*
 				 * Step 4c:
 				 * Triumphs and Despairs
-				*/
+				 */
 				if( $resultArray['triumph'] > 0 ) {
 					for($i=1;$i<=$resultArray['triumph'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":triumph1:";
@@ -230,7 +230,7 @@
 				/*
 				 * Step 4d:
 				 * Light Side Force Points and Dark Side Force Points
-				*/
+				 */
 				if( $resultArray['lightSideForcePoint'] > 0 ) {
 					for($i=1;$i<=$resultArray['lightSideForcePoint'];$i++) {
 						$payloadArray['attachmentsArray']['text'] .= ":lightside:";
@@ -250,13 +250,13 @@
 			/*
 			 * /roll 1d100+10
 			 * $diceArray['numberedDiceString']: 1d100+10
-			*/
+			 */
 			} elseif( $diceArray['type'] === "Numbered Dice" || $diceArray['type'] === "Numbered Dice with Addition" ) {
 				/*
 				 * Step 1:
 				 * Organize string
 				 * Return error if not formatted properly
-				*/
+				 */
 				$diceD_Test = explode("d", $diceArray['numberedDiceString']);
 				$diceArray['dicePluralString'] = ($diceD_Test[0] > 1 ? "dice" : "die");
 				$diceArray['addAmount'] = 0;
@@ -276,7 +276,7 @@
 				/*
 				 * Step 2:
 				 * Calculate the result
-				*/
+				 */
 				if( isset( $diceArray ) ) {
 					$payloadArray['attachmentsArray']['pretext'] .= $diceArray['diceAmount']." ".$diceArray['diceSides']."-sided ".$diceArray['dicePluralString'];
 					if( $diceArray['addAmount'] ) {

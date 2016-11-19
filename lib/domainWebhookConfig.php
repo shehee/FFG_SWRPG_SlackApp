@@ -41,7 +41,7 @@
 	);
 	/*
 	 * Associate usernames to icon_urls
-	*/
+	 */
 	$messengerCharacterArray = array(
 		"GROUP 1"				=>	array( 
 			"NAME 1"							=> "http://placehold.it/512.png?text=NAME+1",
@@ -56,14 +56,14 @@
 	/*
 	 * $payloadArray['attachmentsArray']
 	 * These are defaults that will be overwritten later probably
-	*/
+	 */
 	$payloadArray['attachmentsArray'] = array(
 		"fallback"			=> "Payload attachment for SWRPG NPC Messenger & Dice Roller",
 		"color"				=> "#761213",
 	);
 	/*
 	 * Associate die types to die face assignments and die face results
-	*/
+	 */
 	$diceDistributionArray = array(
 		"boost"			=> array(
 			1				=> array( NULL ),
