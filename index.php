@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
-	 * Date:		2016-11-04
+	 * Version:		1.02
+	 * Date:		2016-11-18
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -24,16 +24,17 @@
 	 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	 */
 	$requiredFiles = array(
-		"lib/authenticatePostData.php",			// needed for mainRoller.php
-		"lib/constructAttachmentsString.php",	// universal
-		"lib/constructMessagePayload.php",		// needed for mainMessager.php
-		"lib/constructRollPayload.php",			// needed for mainRoller.php
-		"lib/domainWebhookConfig.php",			// universal - settings
-		"lib/escapePayloadString.php",			// universal
-		"lib/logOutput.php",					// universal
-		"lib/processMessage.php",				// needed for mainMessager.php
-		"lib/processRoll.php",					// needed for mainRoller.php
-		"lib/sendSlackWebhook.php",				// universal
+		"lib/authenticatePostData.php",				// needed for mainRoller.php
+		"lib/constructAttachmentsString.php",		// universal
+		"lib/constructMessagePayload.php",			// needed for mainMessager.php
+		"lib/constructRollPayload.php",				// needed for mainRoller.php
+		"lib/constructRoleplayingDiceString.php",	// needed for mainRoller.php
+		"lib/domainWebhookConfig.php",				// universal - settings
+		"lib/escapePayloadString.php",				// universal
+		"lib/logOutput.php",						// universal
+		"lib/processMessage.php",					// needed for mainMessager.php
+		"lib/processRoll.php",						// needed for mainRoller.php
+		"lib/sendSlackWebhook.php",					// universal
 	);
 	/*
 	 * Determine if form was submitted...

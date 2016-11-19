@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
-	 * Date:		2016-11-04
+	 * Version:		1.02
+	 * Date:		2016-11-18
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -30,10 +30,41 @@
 	 */
 	if (!function_exists('processRoll')) {
 		function processRoll($diceDistributionArray) {
+			/*
+			 * Step -1:
+			 * Process $_POST['text'] into usable and matchable string
+			 * Use regular expressions to match the roll type
+			 */
 			$lowercaseText = strtolower($_POST['text']);
 			$trimmedLowercaseText = trim($lowercaseText);
-			$replacedTrimmedLowercaseText = preg_replace('/[^abcdfgkprsuwyABCDFGKPRSUWY0-9+]+/i', '', $trimmedLowercaseText);
+			$replacedTrimmedLowercaseText = preg_replace('/[^abcdfgkprsuwy\d+]+/', '', $trimmedLowercaseText);
+			if( $trimmedLowercaseText === $replacedTrimmedLowercaseText ) {
+				if( preg_match('/^[\d]+[d][\d]+[+][\d]+$/',$replacedTrimmedLowercaseText ) ) {
+					$diceArray['numberedDiceString'] = $replacedTrimmedLowercaseText;
+					$diceArray['type'] = "Numbered Dice with Addition";
+				} elseif( preg_match('/^[\d]+[d][\d]+$/',$replacedTrimmedLowercaseText ) ) {
+					$diceArray['numberedDiceString'] = $replacedTrimmedLowercaseText;
+					$diceArray['type'] = "Numbered Dice";
+				} else {
+					$diceArray['roleplayingDiceString'] = constructRoleplayingDiceString($replacedTrimmedLowercaseText);
+					if( preg_match('/^[abcdfgkprsuwy]+$/',$diceArray['roleplayingDiceString'] ) ) {
+						$diceArray['type'] = "Star Wars Roleplaying Dice";
+					} else {
+						$diceArray['type'] = "Unknown";
+					}
+				}
+			} else {
+				$diceArray['type'] = "Invalid";
+			}
+			/*
+			 * Step 0:
+			 * Begin formatting $payloadArray, 
+			 * esp. pretext string
+			 */
+			$payloadArray['attachmentsArray']['mrkdwn_in'] = array( "pretext", "text", "fields" );
 			$payloadArray['attachmentsArray']['color'] = "#761213";
+			$payloadArray['attachmentsArray']['fallback'] = $diceArray['type'] .": " . $_POST['text'];
+			$payloadArray['attachmentsArray']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
 
 			/*
 			 * test if "text" is alpha only:
@@ -42,7 +73,7 @@
 			 *		ex: /roll 1g3y1b3p1r2k // may be implemented in the future
 			 * 		ex: /roll 1d100
 			*/
-			if( $trimmedLowercaseText !== $replacedTrimmedLowercaseText ) {
+			if( $diceArray['type'] === "Invalid" || $diceArray['type'] === "Unknown" ) {
 				/*
 				 * If the "text" is ill-formatted...
 				 * return instructions on how to properly format "text"
@@ -58,7 +89,7 @@
 			 * elseif ctype_alpha
 			 *
 			 * /roll abcdfgkprsuwy
-			 * $replacedTrimmedLowercaseText: abcdfgkprsuwy
+			 * $diceArray['roleplayingDiceString']: abcdfgkprsuwy
 			 *
 			 * Type or Color abbreviations
 			 * [A]bility dice are [G]reen
@@ -69,26 +100,20 @@
 			 * [S]etback dice are blac[K]
 			 * [F]orce dice are [W]hite
 			*/
-			} elseif( ctype_alpha( $replacedTrimmedLowercaseText ) ) {
+			} elseif( $diceArray['type'] === "Star Wars Roleplaying Dice" ) {
 				/*
 				 * Step 1:
-				 * Begin formatting pretext string
-				*/
-				$payloadArray['attachmentsArray']['fallback'] = "ctype_alpha: " . $_POST['text'];
-				$payloadArray['attachmentsArray']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
-				/*
-				 * Step 2:
 				 * Count how many of each type of dice are mentioned in the string
 				*/
-				$diceArray['request']['ability'] = substr_count($replacedTrimmedLowercaseText, 'g') + substr_count($replacedTrimmedLowercaseText, 'a');
-				$diceArray['request']['proficiency'] = substr_count($replacedTrimmedLowercaseText, 'y');
-				$diceArray['request']['boost'] = substr_count($replacedTrimmedLowercaseText, 'b') + substr_count($replacedTrimmedLowercaseText, 'u');
-				$diceArray['request']['difficulty'] = substr_count($replacedTrimmedLowercaseText, 'p') + substr_count($replacedTrimmedLowercaseText, 'd');
-				$diceArray['request']['challenge'] = substr_count($replacedTrimmedLowercaseText, 'r') + substr_count($replacedTrimmedLowercaseText, 'c');
-				$diceArray['request']['setback'] = substr_count($replacedTrimmedLowercaseText, 'k') + substr_count($replacedTrimmedLowercaseText, 's');
-				$diceArray['request']['Force'] = substr_count($replacedTrimmedLowercaseText, 'w') + substr_count($replacedTrimmedLowercaseText, 'f');
+				$diceArray['request']['ability'] = substr_count($diceArray['roleplayingDiceString'], 'g') + substr_count($diceArray['roleplayingDiceString'], 'a');
+				$diceArray['request']['proficiency'] = substr_count($diceArray['roleplayingDiceString'], 'y');
+				$diceArray['request']['boost'] = substr_count($diceArray['roleplayingDiceString'], 'b') + substr_count($diceArray['roleplayingDiceString'], 'u');
+				$diceArray['request']['difficulty'] = substr_count($diceArray['roleplayingDiceString'], 'p') + substr_count($diceArray['roleplayingDiceString'], 'd');
+				$diceArray['request']['challenge'] = substr_count($diceArray['roleplayingDiceString'], 'r') + substr_count($diceArray['roleplayingDiceString'], 'c');
+				$diceArray['request']['setback'] = substr_count($diceArray['roleplayingDiceString'], 'k') + substr_count($diceArray['roleplayingDiceString'], 's');
+				$diceArray['request']['Force'] = substr_count($diceArray['roleplayingDiceString'], 'w') + substr_count($diceArray['roleplayingDiceString'], 'f');
 				/*
-				 * Step 3:
+				 * Step 2:
 				 * Roll results of each $diceArray['request']
 				 * Further format pretext string
 				*/
@@ -108,7 +133,7 @@
 				}
 				$payloadArray['attachmentsArray']['pretext'] .= ". "; // finish formatting pretext string
 				/*
-				 * Step 4:
+				 * Step 3:
 				 * Count each result and organize them in an array
 				*/
 				if( is_array( $diceArray['dieRoll'] ) ) {
@@ -146,12 +171,12 @@
 					}
 				}
 				/*
-				 * Step 5:
+				 * Step 4:
 				 * Begin formatting text string based on results of rolls
 				*/
 
 				/*
-				 * Step 5a:
+				 * Step 4a:
 				 * Successes vs Failures
 				*/
 				if( $resultArray['success'] > $resultArray['failure'] ) {
@@ -170,7 +195,7 @@
 					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netFailures'] . " Failure".($resultArray['netFailures'] > 1 ? "s" : NULL).". ";
 				}
 				/*
-				 * Step 5b:
+				 * Step 4b:
 				 * Advantages vs Threats
 				*/
 				if( $resultArray['advantage'] > $resultArray['threat'] ) {
@@ -187,7 +212,7 @@
 					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netThreats'] . " Threat".($resultArray['netThreats'] > 1 ? "s" : NULL).". ";
 				}
 				/*
-				 * Step 5c:
+				 * Step 4c:
 				 * Triumphs and Despairs
 				*/
 				if( $resultArray['triumph'] > 0 ) {
@@ -203,7 +228,7 @@
 					$payloadArray['attachmentsArray']['footer'] .= $resultArray['despair'] . " Despair".($resultArray['despair'] > 1 ? "s" : NULL).". ";
 				}
 				/*
-				 * Step 5d:
+				 * Step 4d:
 				 * Light Side Force Points and Dark Side Force Points
 				*/
 				if( $resultArray['lightSideForcePoint'] > 0 ) {
@@ -224,21 +249,15 @@
 
 			/*
 			 * /roll 1d100+10
-			 * $replacedTrimmedLowercaseText: 1d100+10
+			 * $diceArray['numberedDiceString']: 1d100+10
 			*/
-			} else {
-				$payloadArray['attachmentsArray']['fallback'] = "NOT ctype_alpha: " . $_POST['text'];
+			} elseif( $diceArray['type'] === "Numbered Dice" || $diceArray['type'] === "Numbered Dice with Addition" ) {
 				/*
 				 * Step 1:
-				 * Begin formatting pretext string
-				*/
-				$payloadArray['attachmentsArray']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
-				/*
-				 * Step 2:
 				 * Organize string
 				 * Return error if not formatted properly
 				*/
-				$diceD_Test = explode("d", $replacedTrimmedLowercaseText);
+				$diceD_Test = explode("d", $diceArray['numberedDiceString']);
 				$diceArray['dicePluralString'] = ($diceD_Test[0] > 1 ? "dice" : "die");
 				$diceArray['addAmount'] = 0;
 // 1d100
@@ -255,7 +274,7 @@
 					}
 				}
 				/*
-				 * Step 3:
+				 * Step 2:
 				 * Calculate the result
 				*/
 				if( isset( $diceArray ) ) {
@@ -266,8 +285,14 @@
 						$payloadArray['attachmentsArray']['pretext'] .= ".";
 					}
 					for($i=1;$i<=$diceArray['diceAmount'];$i++) {
-						$diceArray['rollResult'] = mt_rand(1,$diceArray['diceSides']) + $diceArray['addAmount'];
-						$payloadArray['attachmentsArray']['text'] .= "Roll ".$i." result: " . $diceArray['rollResult'] . "\n";
+						$diceArray['rollResult'] = mt_rand(1,$diceArray['diceSides']);
+						$diceArray['rollTotal'] = $diceArray['rollResult'] + $diceArray['addAmount'];
+						$payloadArray['attachmentsArray']['text'] .= "Roll ".$i." result: `" . str_pad( $diceArray['rollResult'] , 3 , " " , STR_PAD_LEFT );
+						if( $diceArray['addAmount'] > 0 ) {
+							$payloadArray['attachmentsArray']['text'] .= "` + `" . str_pad( $diceArray['addAmount'] , 3 , " " , STR_PAD_LEFT ) . "` = `" . str_pad( $diceArray['rollTotal'] , 3 , " " , STR_PAD_LEFT );
+						}
+						$payloadArray['attachmentsArray']['text'] .= "`\n";
+						$payloadArray['attachmentsArray']['footer'] .= ( $i > 1 ? ", " : NULL ) . $diceArray['rollTotal'];
 					}
 				}
 			} // end else
