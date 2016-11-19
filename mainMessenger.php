@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.05
+	 * Version:		1.06
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -54,8 +54,8 @@
 	 * Send webhook
 	 */
 	if( $formValues[ 'submitState' ] === TRUE ) {
-		$payloadArray = processMessage( $payloadArray , $messengerCharacterArray );
-		$payloadString = constructPayloadString( $payloadArray, $messageAttachmentsArray );
+		$payloadArray = processMessage($payloadArray,$messengerCharacterArray);
+		$payloadString = constructPayloadString($payloadArray);
 		if( $formValues[ 'sendWebhook' ] === TRUE && isset( $payloadString ) ) {
 			/*
 			 * Log payloadString

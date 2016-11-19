@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.05
+	 * Version:		1.06
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -60,8 +60,8 @@
 			 * Step 0:
 			 * Begin formatting $payloadArray, 
 			 */
-			$payloadArray['attachmentsArray']['fallback'] = $diceArray['type'] .": " . $_POST['text'];
-			$payloadArray['attachmentsArray']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
+			$payloadArray['attachments']['fallback'] = $diceArray['type'] .": " . $_POST['text'];
+			$payloadArray['attachments']['pretext'] = "<@".$_POST['user_id']."|".$_POST['user_name']."> rolled ";
 
 			/*
 			 * test if "text" is alpha only:
@@ -118,17 +118,17 @@
 					for($i=1;$i<=$diceRequested;$i++) {
 						$diceArray['dieFace'] = mt_rand(1,count($diceDistributionArray[$dieType]));
 						$diceArray['dieRoll'][] = $diceDistributionArray[$dieType][ $diceArray['dieFace'] ]; // this new array will be used later as $rollArray
-						$payloadArray['attachmentsArray']['title'] .= ":".strtolower($dieType).$diceArray['dieFace'].": "; // add die results string to "title" as they get generated
+						$payloadArray['attachments']['title'] .= ":".strtolower($dieType).$diceArray['dieFace'].": "; // add die results string to "title" as they get generated
 					}
 					if( $diceRequested > 0 ) {
 						$pretextComma = ($pretextCount > 0 ? ", " : NULL);
 						$diceArray['dicePluralString'] = ($diceRequested > 1 ? "dice" : "die");
-						$payloadArray['attachmentsArray']['pretext'] .= $pretextComma.--$i." ".ucfirst($dieType)." ".$diceArray['dicePluralString']." :".strtolower($dieType).":"; // add die results string to "title" as they get generated
+						$payloadArray['attachments']['pretext'] .= $pretextComma.--$i." ".ucfirst($dieType)." ".$diceArray['dicePluralString']." :".strtolower($dieType).":"; // add die results string to "title" as they get generated
 						$pretextCount++;
 					}
 // unset($diceArray);
 				}
-				$payloadArray['attachmentsArray']['pretext'] .= ". "; // finish formatting pretext string
+				$payloadArray['attachments']['pretext'] .= ". "; // finish formatting pretext string
 				/*
 				 * Step 3:
 				 * Count each result and organize them in an array
@@ -177,20 +177,20 @@
 				 * Successes vs Failures
 				 */
 				if( $resultArray['success'] > $resultArray['failure'] ) {
-					$payloadArray['attachmentsArray']['color'] = "#46A246";
+					$payloadArray['attachments']['color'] = "#46A246";
 					$resultArray['netSuccesses'] = $resultArray['success'] - $resultArray['failure'];
 					for($i=1;$i<=$resultArray['netSuccesses'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":success:";
+						$payloadArray['attachments']['text'] .= ":success:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netSuccesses']." Success".($resultArray['netSuccesses'] > 1 ? "es" : NULL);
+					$payloadArray['attachments']['footer'] .= $resultArray['netSuccesses']." Success".($resultArray['netSuccesses'] > 1 ? "es" : NULL);
 					$prependFooter = ", ";
 				} elseif( $resultArray['failure'] > $resultArray['success'] ) {
-					$payloadArray['attachmentsArray']['color'] = "#E11D39";
+					$payloadArray['attachments']['color'] = "#E11D39";
 					$resultArray['netFailures'] = $resultArray['failure'] - $resultArray['success'];
 					for($i=1;$i<=$resultArray['netFailures'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":failure:";
+						$payloadArray['attachments']['text'] .= ":failure:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $resultArray['netFailures']." Failure".($resultArray['netFailures'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $resultArray['netFailures']." Failure".($resultArray['netFailures'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				}
 				/*
@@ -200,16 +200,16 @@
 				if( $resultArray['advantage'] > $resultArray['threat'] ) {
 					$resultArray['netAdvantages'] = $resultArray['advantage'] - $resultArray['threat'];
 					for($i=1;$i<=$resultArray['netAdvantages'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":advantage:";
+						$payloadArray['attachments']['text'] .= ":advantage:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['netAdvantages']." Advantage".($resultArray['netAdvantages'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['netAdvantages']." Advantage".($resultArray['netAdvantages'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				} elseif( $resultArray['threat'] > $resultArray['advantage'] ) {
 					$resultArray['netThreats'] = $resultArray['threat'] - $resultArray['advantage'];
 					for($i=1;$i<=$resultArray['netThreats'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":threat:";
+						$payloadArray['attachments']['text'] .= ":threat:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['netThreats']." Threat".($resultArray['netThreats'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['netThreats']." Threat".($resultArray['netThreats'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				}
 				/*
@@ -218,16 +218,16 @@
 				 */
 				if( $resultArray['triumph'] > 0 ) {
 					for($i=1;$i<=$resultArray['triumph'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":triumph1:";
+						$payloadArray['attachments']['text'] .= ":triumph1:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['triumph']." Triumph".($resultArray['triumph'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['triumph']." Triumph".($resultArray['triumph'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				}
 				if( $resultArray['despair'] > 0 ) {
 					for($i=1;$i<=$resultArray['despair'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":despair:";
+						$payloadArray['attachments']['text'] .= ":despair:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['despair']." Despair".($resultArray['despair'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['despair']." Despair".($resultArray['despair'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				}
 				/*
@@ -236,16 +236,16 @@
 				 */
 				if( $resultArray['lightSideForcePoint'] > 0 ) {
 					for($i=1;$i<=$resultArray['lightSideForcePoint'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":lightside:";
+						$payloadArray['attachments']['text'] .= ":lightside:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['lightSideForcePoint']." light side Force point".($resultArray['lightSideForcePoint'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['lightSideForcePoint']." light side Force point".($resultArray['lightSideForcePoint'] > 1 ? "s" : NULL);
 					$prependFooter = ", ";
 				}
 				if( $resultArray['darkSideForcePoint'] > 0 ) {
 					for($i=1;$i<=$resultArray['darkSideForcePoint'];$i++) {
-						$payloadArray['attachmentsArray']['text'] .= ":darkside:";
+						$payloadArray['attachments']['text'] .= ":darkside:";
 					}
-					$payloadArray['attachmentsArray']['footer'] .= $prependFooter.$resultArray['darkSideForcePoint']." dark side Force point".($resultArray['darkSideForcePoint'] > 1 ? "s" : NULL);
+					$payloadArray['attachments']['footer'] .= $prependFooter.$resultArray['darkSideForcePoint']." dark side Force point".($resultArray['darkSideForcePoint'] > 1 ? "s" : NULL);
 				}
 				// end formatting text string based on results of rolls
 
@@ -282,21 +282,21 @@
 				 * Calculate the result
 				 */
 				if( isset( $diceArray ) ) {
-					$payloadArray['attachmentsArray']['pretext'] .= $diceArray['diceAmount']." ".$diceArray['diceSides']."-sided ".$diceArray['dicePluralString'];
+					$payloadArray['attachments']['pretext'] .= $diceArray['diceAmount']." ".$diceArray['diceSides']."-sided ".$diceArray['dicePluralString'];
 					if( $diceArray['addAmount'] ) {
-						$payloadArray['attachmentsArray']['pretext'] .= ", adding ".$diceArray['addAmount']." to the result.";
+						$payloadArray['attachments']['pretext'] .= ", adding ".$diceArray['addAmount']." to the result.";
 					} else {
-						$payloadArray['attachmentsArray']['pretext'] .= ".";
+						$payloadArray['attachments']['pretext'] .= ".";
 					}
 					for($i=1;$i<=$diceArray['diceAmount'];$i++) {
 						$diceArray['rollResult'] = mt_rand(1,$diceArray['diceSides']);
 						$diceArray['rollTotal'] = $diceArray['rollResult'] + $diceArray['addAmount'];
-						$payloadArray['attachmentsArray']['text'] .= "Roll ".$i." result: `" . str_pad( $diceArray['rollResult'] , 3 , " " , STR_PAD_LEFT );
+						$payloadArray['attachments']['text'] .= "Roll ".$i." result: `" . str_pad( $diceArray['rollResult'] , 3 , " " , STR_PAD_LEFT );
 						if( $diceArray['addAmount'] > 0 ) {
-							$payloadArray['attachmentsArray']['text'] .= "` + `" . str_pad( $diceArray['addAmount'] , 3 , " " , STR_PAD_LEFT ) . "` = `" . str_pad( $diceArray['rollTotal'] , 3 , " " , STR_PAD_LEFT );
+							$payloadArray['attachments']['text'] .= "` + `" . str_pad( $diceArray['addAmount'] , 3 , " " , STR_PAD_LEFT ) . "` = `" . str_pad( $diceArray['rollTotal'] , 3 , " " , STR_PAD_LEFT );
 						}
-						$payloadArray['attachmentsArray']['text'] .= "`\n";
-						$payloadArray['attachmentsArray']['footer'] .= ( $i > 1 ? ", " : NULL ) . $diceArray['rollTotal'];
+						$payloadArray['attachments']['text'] .= "`\n";
+						$payloadArray['attachments']['footer'] .= ( $i > 1 ? ", " : NULL ) . $diceArray['rollTotal'];
 					}
 				}
 			} // end else

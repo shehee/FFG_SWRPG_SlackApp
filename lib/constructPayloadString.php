@@ -3,7 +3,7 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.05
+	 * Version:		1.06
 	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
@@ -28,12 +28,22 @@
 	 * Construct the message payload string from the payload array and attachments array
 	 */
 	if (!function_exists('constructPayloadString')) {
-		function constructPayloadString($payloadArray) {
+		function constructPayloadString($payloadArray,$payloadName=NULL) {
 			/*
 			 * Step 1:
 			 * Open string
 			 */
-			$payloadString = '{';
+			if( isset($payloadName) ) {
+				$payloadString .= '"'.$payloadName.'":[{';
+				if($payloadName==='attachments') {
+					$payloadString .= '"mrkdwn_in":["pretext","text","fields"],';
+				}
+			} else {
+				/*
+				 * mrkdwn_in is such a hassle we'll deal with it here
+				 */
+				$payloadString .= '{';
+			}
 			/*
 			 * Step 2:
 			 * Append each key and value pair
@@ -45,21 +55,24 @@
 						$payloadString .= ',';
 					}
 					$payloadString .= '"'.$payloadKey.'":"'.trim(escapePayloadString($payloadValue)).'"';
-				} elseif( is_array($payloadValue) && $payloadKey === "attachmentsArray" ) {
+				} elseif( is_array($payloadValue) ) {
 					/*
 					 * Step 3:
-					 * Construct and append attachments
-					 * Will need to be escaped as needed; see constructAttachmentsString.php for individual escapes
+					 * Construct and append attachments & actions using recursive call to constructPayloadString()
+					 * Will need to be escaped as needed
 					 */
-					$payloadString .= ','.constructAttachmentsString( $payloadArray['attachmentsArray'] );
+					$payloadString .= ','.constructPayloadString( $payloadArray[$payloadKey], $payloadKey );
 				}
 			}
 			/*
 			 * Step 4:
 			 * Close string
 			 */
-			$payloadString .= '}';
-
+			if( isset($payloadName) ) {
+				$payloadString .= '}]';
+			} else {
+				$payloadString .= '}';
+			}
 			return $payloadString;
 		}
 	}
