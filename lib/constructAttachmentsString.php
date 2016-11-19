@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
-	 * Date:		2016-11-04
+	 * Version:		1.02
+	 * Date:		2016-11-18
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -31,10 +31,8 @@
 	/*
 	 * For temporary reference:
 	 *
-	 * // THIS DOESN'T WORK FOR SOME REASON
-	 * $payloadArray['attachmentsArray']['mrkdwn_in'] = array( "pretext", "text", "fields" );
-	 * 
 	 * // THESE ARE USED (somewhere)
+	 * $payloadArray['attachmentsArray']['mrkdwn_in'] = array( "pretext", "text", "fields" );
 	 * $payloadArray['attachmentsArray']['fallback'] = $_POST['text'];
 	 * $payloadArray['attachmentsArray']['color'] = "#761213";
 	 * $payloadArray['attachmentsArray']['pretext'] = NULL;
@@ -57,24 +55,22 @@
 
 	if (!function_exists('constructAttachmentsString')) {
 		function constructAttachmentsString($attachmentsArray) {
-			if( is_array( $attachmentsArray ) ) {
-				$payloadString = '"attachments": [ {';
+			if( is_array($attachmentsArray) ) {
+				$payloadString .= '"attachments":[{';
 				foreach( $attachmentsArray as $attachmentsKey => $attachmentsValue ) {
 					if( is_array( $attachmentsValue ) ) {
-						$payloadString = '"'.$attachmentsKey.'": [ ';
-						foreach( $attachmentsValue as $valueKey => $valueValue ) {
-							if($count > 0) {
-								$commaDelimiter = ", ";
-							}
-							$payloadString .= $commaDelimiter.'"'.escapePayloadString($valueValue).'"';
-							$count++;
+						$payloadString .= $attachmentsArray['delimiter'][0].'"'.$attachmentsKey.'":[';
+						foreach( $attachmentsValue as $valueValue ) {
+							$payloadString .= $attachmentsArray['delimiter'][1].'"'.escapePayloadString($valueValue).'"';
+							$attachmentsArray['delimiter'][1] = ",";
 						}
-						$payloadString .= ' ]';
+						$payloadString .= ']';
 					} else {
-						$payloadString .= '"'.$attachmentsKey.'": "'.escapePayloadString($attachmentsValue).'",';
+						$payloadString .= $attachmentsArray['delimiter'][0].'"'.$attachmentsKey.'": "'.escapePayloadString($attachmentsValue).'"';
 					}
+					$attachmentsArray['delimiter'][0] = ",";
 				}
-				$payloadString .= '} ]';
+				$payloadString .= '}]';
 
 				return $payloadString;
 			} else {
