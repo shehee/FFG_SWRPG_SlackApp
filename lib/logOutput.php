@@ -33,7 +33,7 @@
 	 * or a crucial roll wasted
 	 */
 	if (!function_exists('logOutput')) {
-		function logOutput( $payloadString, $logFile ) {
+		function logOutput($payloadString,$logFile) {
 			// Open the file to get existing content
 			$currentLogContents = file_get_contents($logFile);
 			// Append a new person to the file
@@ -42,6 +42,6 @@
 			$currentLogContents .= "\t".$payloadString;
 			$currentLogContents .= "\r\n\r\n";
 			// Write the contents back to the file
-			file_put_contents($logFile, $currentLogContents);
+			file_put_contents($logFile,$currentLogContents);
 		}
 	}

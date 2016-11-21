@@ -3,8 +3,8 @@
 	 * Copyright (C) 2016 Ryan Shehee
 	 *
 	 * Author:		Ryan Shehee
-	 * Version:		1.00
-	 * Date:		2016-11-04
+	 * Version:		1.07
+	 * Date:		2016-11-19
 	 * Repository:	https://github.com/shehee/ffgswrpg-slack-app
 	 * License:		GNU GPLv3
 	 *
@@ -30,12 +30,12 @@
 	 */
 	if (!function_exists('authenticatePostData')) {
 		function authenticatePostData($domainWebhookSettings) {
-			if( $_POST['token'] !==  $domainWebhookSettings['token'] ) {
-				die( "Authentication failed: Token mismatch." );
+			if( $_POST['token'] !==  $domainWebhookSettings['roll_token'] ) {
+				return "Authentication failed: Token mismatch.";
 			} elseif( $_POST['team_id'] !==  $domainWebhookSettings['team_id'] ) {
-				die( "Authentication failed: Team ID mismatch." );
+				return "Authentication failed: Team ID mismatch.";
 			} elseif( $_POST['team_domain'] !== $domainWebhookSettings['team_domain'] ) {
-				die( "Authentication failed: Team domain mismatch." );
+				return "Authentication failed: Team domain mismatch.";
 			} else {
 				return TRUE;
 			}

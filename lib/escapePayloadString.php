@@ -32,6 +32,6 @@
 		function escapePayloadString($payloadString) {
 			$payloadTextSearch  = array('\\', '"');
 			$payloadTextReplace = array('\\\\', '\"');
-			return str_replace($payloadTextSearch, $payloadTextReplace, $payloadString);
+			return str_replace($payloadTextSearch,$payloadTextReplace,$payloadString);
 		}
 	}

@@ -27,7 +27,7 @@
 	 * --------
 	 * Construct the message payload string from the payload array and attachments array
 	 */
-	if (!function_exists('constructPayloadString')) {
+	if ( !function_exists('constructPayloadString') ) {
 		function constructPayloadString($payloadArray,$payloadName=NULL) {
 			/*
 			 * Step 1:

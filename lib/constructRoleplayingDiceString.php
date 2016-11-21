@@ -29,12 +29,12 @@
 	 */
 	if (!function_exists('constructRoleplayingDiceString')) {
 		function constructRoleplayingDiceString($replacedTrimmedLowercaseText) {
-			if( ctype_alpha( $replacedTrimmedLowercaseText ) ) {
+			if( ctype_alpha($replacedTrimmedLowercaseText) ) {
 				return $replacedTrimmedLowercaseText;
-			} elseif( preg_match('/[abcdfgkprsuwy0-9]+/',$replacedTrimmedLowercaseText ) ) {
+			} elseif( preg_match('/[abcdfgkprsuwy0-9]+/',$replacedTrimmedLowercaseText) ) {
 				$diceArray['typeAbbreviations'] = array( "a", "b", "c", "d", "f", "g", "k", "p", "r", "s", "u", "w", "y" );
 				foreach( $diceArray['typeAbbreviations'] as $typeAbbreviation ) {
-					if( preg_match('/(\d+)'.$typeAbbreviation.'/',$replacedTrimmedLowercaseText ) ) {
+					if( preg_match('/(\d+)'.$typeAbbreviation.'/',$replacedTrimmedLowercaseText) ) {
 						$typeAbbreviationCount = preg_match( '/(\d+)'.$typeAbbreviation.'/',$replacedTrimmedLowercaseText,$typeAbbreviationCountArray );
 						for($i=1;$i<=$typeAbbreviationCountArray[1];$i++) {
 							$roleplayingDiceString .= $typeAbbreviation;

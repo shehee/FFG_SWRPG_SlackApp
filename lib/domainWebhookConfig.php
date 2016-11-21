@@ -35,7 +35,6 @@
 								"#random" 	=> "#random",
 							),
 		"roll_token"		=> "XXXXXXXXXXXXXXXXXXXXXXXX",
-		"destiny_token"		=> "XXXXXXXXXXXXXXXXXXXXXXXX",
 		"team_id"			=> "TXXXXXXXX",
 		"team_domain"		=> "_________",
 		"owner_id"			=> "UXXXXXXXX",		// may be used in the future
@@ -49,8 +48,8 @@
 			"NAME 2"							=> "http://placehold.it/512.png?text=NAME+2",
 		), 
 		"GROUP 2"				=>	array( 
-			"NAME 3"							=> "http://placehold.it/512.png?text=NAME+1",
-			"NAME 4"							=> "http://placehold.it/512.png?text=NAME+2",
+			"NAME 3"							=> "http://placehold.it/512.png?text=NAME+3",
+			"NAME 4"							=> "http://placehold.it/512.png?text=NAME+4",
 		), 
 	);
 /* END PRIVATE DATA */

@@ -126,7 +126,6 @@
 						$payloadArray['attachments']['pretext'] .= $pretextComma.--$i." ".ucfirst($dieType)." ".$diceArray['dicePluralString']." :".strtolower($dieType).":"; // add die results string to "title" as they get generated
 						$pretextCount++;
 					}
-// unset($diceArray);
 				}
 				$payloadArray['attachments']['pretext'] .= ". "; // finish formatting pretext string
 				/*
@@ -162,7 +161,7 @@
 									$resultArray['darkSideForcePoint']++;
 									break;
 								default:
-									//$resultArray['null'] = NULL;
+									$resultArray['noResult']++;
 							}
 						}
 					}
